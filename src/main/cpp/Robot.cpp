@@ -10,8 +10,8 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor = new rev::CANSparkMax(this->leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   this->m_rightFollowMotor = new rev::CANSparkMax(this->rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
-  this->m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
-  this->m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
+  this->m_leftFollowMotor->Follow(*this->m_leftLeadMotor, false);
+  this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor, false);
 
   frc::Joystick trigger{0}; // replace with USB port number on driver station
 
