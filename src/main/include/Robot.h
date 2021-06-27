@@ -16,7 +16,7 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor; 
   rev::CANSparkMax* m_rightFollowMotor; 
 
-  frc::Joystick trigger;
+  frc::Joystick* trigger;
 
   void RobotInit() override;
   void RobotPeriodic() override;
