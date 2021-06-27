@@ -5,15 +5,15 @@
 #include "Robot.h"
 
 void Robot::RobotInit() {
-  this->m_leftLeadMotor = new rev::CANSparkMax(this->leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  this->m_rightLeadMotor = new rev::CANSparkMax(this->rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  this->m_leftFollowMotor = new rev::CANSparkMax(this->leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  this->m_rightFollowMotor = new rev::CANSparkMax(this->rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  this->m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  this->m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  this->m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  this->m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
   this->m_leftFollowMotor->Follow(*this->m_leftLeadMotor, false);
   this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor, false);
 
-  frc::Joystick trigger{0}; // replace with USB port number on driver station
+  this->trigger = new frc::Joystick(0); // replace with USB port number on driver station
 
 }
 void Robot::RobotPeriodic() {}
@@ -24,13 +24,13 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
 
-  if (trigger.GetTriggerPressed()) {
-    m_leftLeadMotor->Set(0.5);
-    m_rightLeadMotor->Set(0.5);
+  if (this->trigger->GetTriggerPressed()) {
+    this->m_leftLeadMotor->Set(0.5);
+    this->m_rightLeadMotor->Set(0.5);
   }
   else {
-    m_leftLeadMotor->Set(0);
-    m_rightLeadMotor->Set(0);
+    this->m_leftLeadMotor->Set(0);
+    this->m_rightLeadMotor->Set(0);
   }
 }
 
