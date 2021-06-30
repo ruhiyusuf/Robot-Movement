@@ -7,6 +7,7 @@
 #include <frc/TimedRobot.h>
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
+#include <rev/CANEncoder.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -17,7 +18,14 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_rightFollowMotor; 
 
   frc::XboxController* controller;
-  double left_y{0.0};
+  double left_y = 0.0;
+
+  rev::CANEncoder* m_encoderSensor_left_motor;
+  rev::CANEncoder* m_encoderSensor_right_motor;
+
+  double distance = 0;
+
+  double l_wheel_rotations = 0.0, r_wheel_rotations = 0.0, l_wheel_circum = 0.0, r_wheel_circum = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
 
   void RobotInit() override;
   void RobotPeriodic() override;

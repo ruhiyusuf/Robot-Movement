@@ -15,19 +15,49 @@ void Robot::RobotInit() {
   this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor, false);
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
+
+  *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
+  *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();
+
+  l_wheel_circum = 0, r_wheel_circum = 0; // replace with circumference of wheels
 }
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("left y : ", left_y);
+  frc::SmartDashboard::PutNumber("left y: ", left_y);
+  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_wheel_rotations);
+  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_wheel_rotations);
+  frc::SmartDashboard::PutNumber("left wheel distance: ", l_wheel_dist);
+  frc::SmartDashboard::PutNumber("right wheel distance: ", r_wheel_dist);
 }
 
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+  distance = 5.0;        // feet
+  double factor = 0.0;          // replace with conversion factor from circumference of wheel to circumference of motor - for ex. 1 rot of wheel = 2 rots of motor, factor = 2.0
+  m_encoderSensor_left_motor->SetPositionConversionFactor(factor);  
+  m_encoderSensor_right_motor->SetPositionConversionFactor(factor);
+}
+void Robot::AutonomousPeriodic() {
+
+  l_wheel_rotations = m_encoderSensor_left_motor->GetPosition();
+  r_wheel_rotations = m_encoderSensor_right_motor->GetPosition();
+
+  l_wheel_dist = l_wheel_rotations * l_wheel_circum; 
+  r_wheel_dist = r_wheel_rotations * r_wheel_circum;
+
+  if (l_wheel_dist >= (distance*12) || r_wheel_dist >= (distance*12)) {     
+    this->m_leftLeadMotor->Set(0);
+    this->m_rightLeadMotor->Set(0);
+  }
+  else {
+    this->m_leftLeadMotor->Set(0.5);
+    this->m_rightLeadMotor->Set(0.5);
+  }
+}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
 
-  if (left_y < 0.0) {                            // condition checks for value less than 0.0, since moving the joystick up returns a value approaching -1
+  if (left_y < 0.0) {                 // condition checks for value less than 0.0, since moving the joystick up returns a value approaching -1
     this->m_leftLeadMotor->Set(0.5);
     this->m_rightLeadMotor->Set(0.5);
   }
