@@ -6,7 +6,7 @@
 
 #include <frc/TimedRobot.h>
 #include "rev/CANSparkMax.h"
-#include <frc/Joystick.h>
+#include <frc/XboxController.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -16,7 +16,8 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor; 
   rev::CANSparkMax* m_rightFollowMotor; 
 
-  frc::Joystick* trigger;
+  frc::XboxController* controller;
+  double left_y{0.0};
 
   void RobotInit() override;
   void RobotPeriodic() override;
