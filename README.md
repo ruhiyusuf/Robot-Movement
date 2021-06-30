@@ -1,4 +1,4 @@
-# Robot-Movement-Via-Controller
+# Robot-Movement
 ## Autonomous Periodic
 - Moving the robot forward until the desired amount of distance has been covered
 - Distance is measured through the use of encoders
