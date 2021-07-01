@@ -19,7 +19,7 @@ void Robot::RobotInit() {
   *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
   *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();
 
-  l_wheel_circum = 0, r_wheel_circum = 0; // replace with circumference of wheels
+  l_wheel_circum = 0, r_wheel_circum = 0;        // replace with circumference of wheels
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
@@ -30,13 +30,12 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-  distance = 5.0;        // feet
-  double factor = 0.0;          // replace with conversion factor from circumference of wheel to circumference of motor - for ex. 1 rot of wheel = 2 rots of motor, factor = 2.0
+  distance = 5.0;               // feet
+  double factor = 0.0;          // replace with conversion factor from circumference of motor to circumference of wheel - for ex. 2 rots of motor = 1 rot of wheel, factor = 1/2
   m_encoderSensor_left_motor->SetPositionConversionFactor(factor);  
   m_encoderSensor_right_motor->SetPositionConversionFactor(factor);
 }
 void Robot::AutonomousPeriodic() {
-
   l_wheel_rotations = m_encoderSensor_left_motor->GetPosition();
   r_wheel_rotations = m_encoderSensor_right_motor->GetPosition();
 
