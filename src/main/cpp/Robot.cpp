@@ -19,34 +19,31 @@ void Robot::RobotInit() {
   *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
   *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();
 
-  l_wheel_circum = 0, r_wheel_circum = 0;        // replace with circumference of wheels
+  l_motor_circum = 0, r_motor_circum = 0;        // replace with circumference of motors in inches
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
-  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_wheel_rotations);
-  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_wheel_rotations);
-  frc::SmartDashboard::PutNumber("left wheel distance: ", l_wheel_dist);
-  frc::SmartDashboard::PutNumber("right wheel distance: ", r_wheel_dist);
+  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_motor_rots);
+  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_motor_rots);
+  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_motor_dist);
+  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_motor_dist);
 }
 
 void Robot::AutonomousInit() {
   distance = 5.0;      // feet
-  /*
-    factor is the ratio of circumference of motor to circumference of wheel
-    for ex. 2 rotations of motor = 1 rotation of wheel, so factor = 1/2
-  */
-  double factor = 0.0;          
-  m_encoderSensor_left_motor->SetPositionConversionFactor(factor);  
-  m_encoderSensor_right_motor->SetPositionConversionFactor(factor);
 }
 void Robot::AutonomousPeriodic() {
-  l_wheel_rotations = m_encoderSensor_left_motor->GetPosition();
-  r_wheel_rotations = m_encoderSensor_right_motor->GetPosition();
+  /**
+   * GetPosition() returns the number of rotations of the motor
+   * num of rotations of motor times circumference of motor = distance
+  */
+  l_motor_rots = m_encoderSensor_left_motor->GetPosition();
+  r_motor_rots = m_encoderSensor_right_motor->GetPosition();
 
-  l_wheel_dist = l_wheel_rotations * l_wheel_circum; 
-  r_wheel_dist = r_wheel_rotations * r_wheel_circum;
+  l_motor_dist = (l_motor_rots * l_motor_circum) / 12; 
+  r_motor_dist = (r_motor_rots * r_motor_circum) / 12;
 
-  if (l_wheel_dist >= (distance*12) || r_wheel_dist >= (distance*12)) {     
+  if (l_motor_dist >= distance || r_motor_dist >= distance) {     
     this->m_leftLeadMotor->Set(0);
     this->m_rightLeadMotor->Set(0);
   }
@@ -59,8 +56,11 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
-
-  if (left_y < 0.0) {                 // condition checks for value less than 0.0, since moving the joystick up returns a value approaching -1
+  /**
+   * condition checks for value less than 0.0,
+   * since moving the joystick up returns a value approaching -1
+  */
+  if (left_y < 0.0) {                 
     this->m_leftLeadMotor->Set(0.5);
     this->m_rightLeadMotor->Set(0.5);
   }
