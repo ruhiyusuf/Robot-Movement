@@ -17,15 +17,13 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor; 
   rev::CANSparkMax* m_rightFollowMotor; 
 
-  frc::XboxController* controller;
   double left_y = 0.0;
-
-  rev::CANEncoder* m_encoderSensor_left_motor;
-  rev::CANEncoder* m_encoderSensor_right_motor;
+  frc::XboxController* controller;
 
   double distance = 0;
-
   double l_wheel_rotations = 0.0, r_wheel_rotations = 0.0, l_wheel_circum = 0.0, r_wheel_circum = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
+  rev::CANEncoder* m_encoderSensor_left_motor;
+  rev::CANEncoder* m_encoderSensor_right_motor;
 
   void RobotInit() override;
   void RobotPeriodic() override;
