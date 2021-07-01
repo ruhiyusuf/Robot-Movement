@@ -30,8 +30,12 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-  distance = 5.0;               // feet
-  double factor = 0.0;          // replace with conversion factor from circumference of motor to circumference of wheel - for ex. 2 rots of motor = 1 rot of wheel, factor = 1/2
+  distance = 5.0;      // feet
+  /*
+    factor is the ratio of circumference of motor to circumference of wheel
+    for ex. 2 rotations of motor = 1 rotation of wheel, so factor = 1/2
+  */
+  double factor = 0.0;          
   m_encoderSensor_left_motor->SetPositionConversionFactor(factor);  
   m_encoderSensor_right_motor->SetPositionConversionFactor(factor);
 }
