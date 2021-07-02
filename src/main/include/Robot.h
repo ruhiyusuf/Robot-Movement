@@ -17,6 +17,7 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor = nullptr; 
   rev::CANSparkMax* m_rightFollowMotor = nullptr; 
 
+  double max_speed = 0.0;
   double left_y = 0.0;
   frc::XboxController* controller = nullptr;
 
