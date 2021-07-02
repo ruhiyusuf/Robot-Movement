@@ -4,6 +4,7 @@
 
 #include "Robot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/SpeedControllerGroup.h>
 
 void Robot::RobotInit() {
   this->m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
@@ -11,10 +12,10 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   this->m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
-  this->m_leftFollowMotor->Follow(*this->m_leftLeadMotor, false);
-  this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor, false);
+  frc::SpeedControllerGroup m_left(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
+  frc::SpeedControllerGroup m_right(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
 
-  this->m_robotDrive = new frc::DifferentialDrive(*this->m_leftLeadMotor, *this->m_rightLeadMotor);
+  this->m_robotDrive = new frc::DifferentialDrive(m_left, m_right);
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 
@@ -26,10 +27,10 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
   frc::SmartDashboard::PutNumber("right y: ", right_y);
-  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_motor_rots);
-  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_motor_rots);
-  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_motor_dist);
-  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_motor_dist);
+  frc::SmartDashboard::PutNumber("left motor rotations: ", l_motor_rots);
+  frc::SmartDashboard::PutNumber("right motor rotations: ", r_motor_rots);
+  frc::SmartDashboard::PutNumber("left motor distance (ft): ", l_motor_dist);
+  frc::SmartDashboard::PutNumber("right motor distance (ft): ", r_motor_dist);
 }
 
 void Robot::AutonomousInit() {
