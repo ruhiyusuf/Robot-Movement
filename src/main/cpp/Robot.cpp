@@ -14,6 +14,8 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor->Follow(*this->m_leftLeadMotor, false);
   this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor, false);
 
+  this->m_robotDrive = new frc::DifferentialDrive(*this->m_leftLeadMotor, *this->m_rightLeadMotor);
+
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 
   *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
@@ -23,6 +25,7 @@ void Robot::RobotInit() {
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
+  frc::SmartDashboard::PutNumber("right y: ", right_y);
   frc::SmartDashboard::PutNumber("left wheel rotations: ", l_motor_rots);
   frc::SmartDashboard::PutNumber("right wheel rotations: ", r_motor_rots);
   frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_motor_dist);
@@ -44,42 +47,25 @@ void Robot::AutonomousPeriodic() {
   r_motor_dist = (r_motor_rots * r_motor_circum) / 12;
 
   if (l_motor_dist >= distance || r_motor_dist >= distance) {     
-    this->m_leftLeadMotor->Set(0);
-    this->m_rightLeadMotor->Set(0);
+    this->m_robotDrive->TankDrive(0, 0);
   }
   else {
-    this->m_leftLeadMotor->Set(0.5);
-    this->m_rightLeadMotor->Set(0.5);
+    this->m_robotDrive->TankDrive(max_speed, max_speed);
   }
 }
 
 void Robot::TeleopInit() {
   max_speed = 0.5;
+  this->m_robotDrive->SetDeadband(0.05);
 }
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
-  /**
-   * Deadband:
-   * If the joysticks aren't centered exactly at 0.0 either 
-   * due to dust in the joystick or due to the controller being defective, 
-   * then the motors will take input from the controller and start running.
-   * To prevent this, the absolute value of the y-input must be greater than 
-   * 0.1 for the motors to start running.
-  */
-  if (fabs(left_y) < 0.1) {
-    left_y = 0.0;
-  }
+  right_y = this->controller->GetY(frc::GenericHID::kRightHand);
 
-  if (left_y > max_speed) {
-    left_y = max_speed;
-  }
-
-  if (left_y < -max_speed) {
-    left_y = -max_speed;
-  }
-
-  this->m_leftLeadMotor->Set(left_y);
-  this->m_rightLeadMotor->Set(left_y);
+  left_y = std::clamp(left_y, -max_speed, max_speed);
+  right_y = std::clamp(right_y, -max_speed, max_speed);
+  
+  this->m_robotDrive->TankDrive(left_y, right_y, true);
 }
 
 void Robot::DisabledInit() {}
