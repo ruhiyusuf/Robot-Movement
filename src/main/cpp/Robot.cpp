@@ -19,7 +19,7 @@ void Robot::RobotInit() {
   *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
   *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();
 
-  l_motor_circum = 0, r_motor_circum = 0;        // replace with circumference of motors in inches
+  l_motor_circum = r_motor_circum = 0;        // replace with circumference of motor in inches
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
@@ -35,7 +35,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
   /**
    * GetPosition() returns the number of rotations of the motor
-   * num of rotations of motor times circumference of motor = distance
+   * Num of rotations of motor times circumference of motor = distance
   */
   l_motor_rots = m_encoderSensor_left_motor->GetPosition();
   r_motor_rots = m_encoderSensor_right_motor->GetPosition();
@@ -53,21 +53,33 @@ void Robot::AutonomousPeriodic() {
   }
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  max_speed = 0.5;
+}
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
   /**
-   * condition checks for value less than 0.0,
-   * since moving the joystick up returns a value approaching -1
+   * Deadband:
+   * If the joysticks aren't centered exactly at 0.0 either 
+   * due to dust in the joystick or due to the controller being defective, 
+   * then the motors will take input from the controller and start running.
+   * To prevent this, the absolute value of the y-input must be greater than 
+   * 0.1 for the motors to start running.
   */
-  if (left_y < 0.0) {                 
-    this->m_leftLeadMotor->Set(0.5);
-    this->m_rightLeadMotor->Set(0.5);
+  if (fabs(left_y) < 0.1) {
+    left_y = 0.0;
   }
-  else {
-    this->m_leftLeadMotor->Set(0);
-    this->m_rightLeadMotor->Set(0);
+
+  if (left_y > max_speed) {
+    left_y = max_speed;
   }
+
+  if (left_y < -max_speed) {
+    left_y = -max_speed;
+  }
+
+  this->m_leftLeadMotor->Set(left_y);
+  this->m_rightLeadMotor->Set(left_y);
 }
 
 void Robot::DisabledInit() {}
