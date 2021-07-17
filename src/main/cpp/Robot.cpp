@@ -11,6 +11,11 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   this->m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
+  this->m_leftLeadMotor->RestoreFactoryDefaults();
+  this->m_rightLeadMotor->RestoreFactoryDefaults();
+  this->m_leftFollowMotor->RestoreFactoryDefaults();
+  this->m_rightFollowMotor->RestoreFactoryDefaults();
+
   this->m_left = new frc::SpeedControllerGroup(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
   this->m_right = new frc::SpeedControllerGroup(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
 
