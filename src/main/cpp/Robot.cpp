@@ -4,7 +4,6 @@
 
 #include "Robot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/SpeedControllerGroup.h>
 
 void Robot::RobotInit() {
   this->m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
@@ -12,17 +11,15 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   this->m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
-  frc::SpeedControllerGroup m_left(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
-  frc::SpeedControllerGroup m_right(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
+  this->m_left = new frc::SpeedControllerGroup(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
+  this->m_right = new frc::SpeedControllerGroup(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
 
-  this->m_robotDrive = new frc::DifferentialDrive(m_left, m_right);
+  this->m_robotDrive = new frc::DifferentialDrive(*this->m_left, *this->m_right);
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 
   *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
-  *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();
-
-  l_motor_circum = r_motor_circum = 0;        // replace with circumference of motor in inches
+  *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();        
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
@@ -34,6 +31,7 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
+  max_speed = 0.5;
   distance = 5.0;      // feet
 }
 void Robot::AutonomousPeriodic() {
@@ -48,7 +46,7 @@ void Robot::AutonomousPeriodic() {
   r_motor_dist = (r_motor_rots * r_motor_circum) / 12;
 
   if (l_motor_dist >= distance || r_motor_dist >= distance) {     
-    this->m_robotDrive->TankDrive(0, 0);
+    this->m_robotDrive->TankDrive(0.0, 0.0);
   }
   else {
     this->m_robotDrive->TankDrive(max_speed, max_speed);
@@ -56,15 +54,11 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  max_speed = 0.5;
   this->m_robotDrive->SetDeadband(0.05);
 }
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
   right_y = this->controller->GetY(frc::GenericHID::kRightHand);
-
-  left_y = std::clamp(left_y, -max_speed, max_speed);
-  right_y = std::clamp(right_y, -max_speed, max_speed);
   
   this->m_robotDrive->TankDrive(left_y, right_y, true);
 }
