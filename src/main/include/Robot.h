@@ -8,6 +8,7 @@
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
 #include <rev/CANEncoder.h>
+#include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 
 class Robot : public frc::TimedRobot {
@@ -18,14 +19,17 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor = nullptr; 
   rev::CANSparkMax* m_rightFollowMotor = nullptr; 
 
+  frc::SpeedControllerGroup* m_left = nullptr;
+  frc::SpeedControllerGroup* m_right = nullptr;
   frc::DifferentialDrive* m_robotDrive = nullptr;
 
   double max_speed = 0.0;
   double left_y = 0.0, right_y = 0.0;
   frc::XboxController* controller = nullptr;
 
-  double distance = 0;
-  double l_motor_rots = 0.0, r_motor_rots = 0.0, l_motor_circum = 0.0, r_motor_circum = 0.0, l_motor_dist = 0.0, r_motor_dist = 0.0;
+  double distance = 0.0;
+  const double l_motor_circum = 0.0, r_motor_circum = 0.0;       // replace with circumference of motor in inches
+  double l_motor_rots = 0.0, r_motor_rots = 0.0, l_motor_dist = 0.0, r_motor_dist = 0.0;
   rev::CANEncoder* m_encoderSensor_left_motor = nullptr;
   rev::CANEncoder* m_encoderSensor_right_motor = nullptr;
 
