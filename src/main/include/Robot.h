@@ -26,6 +26,8 @@ class Robot : public frc::TimedRobot {
   double max_speed = 0.0;
   double left_y = 0.0, right_y = 0.0;
   frc::XboxController* controller = nullptr;
+  frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
+  frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
 
   double distance = 0.0;
   const double l_motor_circum = 0.0, r_motor_circum = 0.0;       // replace with circumference of motor in inches

@@ -62,8 +62,8 @@ void Robot::TeleopInit() {
   this->m_robotDrive->SetDeadband(0.05);
 }
 void Robot::TeleopPeriodic() {
-  left_y = this->controller->GetY(frc::GenericHID::kLeftHand);
-  right_y = this->controller->GetY(frc::GenericHID::kRightHand);
+  left_y = this->controller->GetY(left_analog);
+  right_y = this->controller->GetY(right_analog);
   
   this->m_robotDrive->TankDrive(left_y, right_y, true);
 }
