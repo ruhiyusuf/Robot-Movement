@@ -24,7 +24,7 @@ class Robot : public frc::TimedRobot {
   frc::DifferentialDrive* m_robotDrive = nullptr;
 
   double max_speed = 0.0;
-  double left_y = 0.0, right_y = 0.0;
+  double left_y = 0.0, right_x = 0.0;
   frc::XboxController* controller = nullptr;
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};

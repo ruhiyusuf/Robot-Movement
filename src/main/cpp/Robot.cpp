@@ -28,7 +28,7 @@ void Robot::RobotInit() {
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
-  frc::SmartDashboard::PutNumber("right y: ", right_y);
+  frc::SmartDashboard::PutNumber("right y: ", right_x);
   frc::SmartDashboard::PutNumber("left motor rotations: ", l_motor_rots);
   frc::SmartDashboard::PutNumber("right motor rotations: ", r_motor_rots);
   frc::SmartDashboard::PutNumber("left motor distance (ft): ", l_motor_dist);
@@ -69,9 +69,9 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(left_analog);
-  right_y = this->controller->GetY(right_analog);
+  right_x = this->controller->GetX(right_analog);
   
-  this->m_robotDrive->TankDrive(left_y, right_y, true);
+  this->m_robotDrive->ArcadeDrive(left_y, right_x, true);
 }
 
 void Robot::DisabledInit() {}
