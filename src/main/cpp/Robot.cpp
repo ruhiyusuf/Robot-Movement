@@ -41,9 +41,15 @@ void Robot::AutonomousInit() {
 }
 void Robot::AutonomousPeriodic() {
   /**
-   * GetPosition() returns the number of rotations of the motor
-   * Num of rotations of motor times circumference of motor = distance
+   * To calculate linear distance of the robot:
+   * calculate the gear ratio: num of teeth on driven gear / num of teeth on driver gear
+   * calculate gear to wheel proportion: gear ratio x circumference of wheel
+   * calculate num of rotations of wheel: gear to wheel proportion x num of rotations outputted by encoder
+   * calculate linear distance: num of rotations of wheel x circumference of wheel
   */
+
+  // ignore the following code for autonomous periodic
+
   l_motor_rots = m_encoderSensor_left_motor->GetPosition();
   r_motor_rots = m_encoderSensor_right_motor->GetPosition();
 
