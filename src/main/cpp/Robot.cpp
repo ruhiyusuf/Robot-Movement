@@ -4,6 +4,7 @@
 
 #include "Robot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <math.h>
 
 void Robot::RobotInit() {
   this->m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
@@ -28,35 +29,28 @@ void Robot::RobotInit() {
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
-  frc::SmartDashboard::PutNumber("right y: ", right_x);
-  frc::SmartDashboard::PutNumber("left motor rotations: ", l_motor_rots);
-  frc::SmartDashboard::PutNumber("right motor rotations: ", r_motor_rots);
-  frc::SmartDashboard::PutNumber("left motor distance (ft): ", l_motor_dist);
-  frc::SmartDashboard::PutNumber("right motor distance (ft): ", r_motor_dist);
+  frc::SmartDashboard::PutNumber("right x: ", right_x);
+  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_wheel_rots);
+  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_wheel_rots);
+  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_wheel_dist);
+  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_wheel_dist);
 }
 
 void Robot::AutonomousInit() {
   max_speed = 0.5;
-  distance = 5.0;      // feet
+  setpoint = 5.0;     // feet
+  double wheel2GearR = (5.7 * M_PI) / (40 / 28); // 5.7 inch diameter wheel, 28 teeth on driver gear, 40 teeth on driven gear
+  m_encoderSensor_left_motor->SetPositionConversionFactor(wheel2GearR);
+  m_encoderSensor_right_motor->SetPositionConversionFactor(wheel2GearR);
 }
 void Robot::AutonomousPeriodic() {
-  /**
-   * To calculate linear distance of the robot:
-   * calculate the gear ratio: num of teeth on driven gear / num of teeth on driver gear
-   * calculate gear to wheel proportion: gear ratio x circumference of wheel
-   * calculate num of rotations of wheel: gear to wheel proportion x num of rotations outputted by encoder
-   * calculate linear distance: num of rotations of wheel x circumference of wheel
-  */
+  l_wheel_rots = m_encoderSensor_left_motor->GetPosition();
+  r_wheel_rots = m_encoderSensor_right_motor->GetPosition();
 
-  // ignore the following code for autonomous periodic
+  l_wheel_dist = (l_wheel_rots * l_wheel_circum) / 12; 
+  r_wheel_dist = (r_wheel_rots * r_wheel_circum) / 12;
 
-  l_motor_rots = m_encoderSensor_left_motor->GetPosition();
-  r_motor_rots = m_encoderSensor_right_motor->GetPosition();
-
-  l_motor_dist = (l_motor_rots * l_motor_circum) / 12; 
-  r_motor_dist = (r_motor_rots * r_motor_circum) / 12;
-
-  if (l_motor_dist >= distance || r_motor_dist >= distance) {     
+  if (l_wheel_dist >= setpoint || r_wheel_dist >= setpoint) {     
     this->m_robotDrive->TankDrive(0.0, 0.0);
   }
   else {

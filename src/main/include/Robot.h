@@ -10,6 +10,7 @@
 #include <rev/CANEncoder.h>
 #include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
+#include <math.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -29,9 +30,9 @@ class Robot : public frc::TimedRobot {
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
 
-  double distance = 0.0;
-  const double l_motor_circum = 0.0, r_motor_circum = 0.0;       // replace with circumference of motor in inches
-  double l_motor_rots = 0.0, r_motor_rots = 0.0, l_motor_dist = 0.0, r_motor_dist = 0.0;
+  double setpoint = 0.0;
+  const double l_wheel_circum = 5.7 * M_PI, r_wheel_circum = 5.7 * M_PI;    
+  double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
   rev::CANEncoder* m_encoderSensor_left_motor = nullptr;
   rev::CANEncoder* m_encoderSensor_right_motor = nullptr;
 
