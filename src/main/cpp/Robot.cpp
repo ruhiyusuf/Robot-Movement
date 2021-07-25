@@ -17,6 +17,9 @@ void Robot::RobotInit() {
   this->m_leftFollowMotor->RestoreFactoryDefaults();
   this->m_rightFollowMotor->RestoreFactoryDefaults();
 
+  this->m_leftLeadMotor->SetInverted(false);
+  this->m_rightLeadMotor->SetInverted(true);
+
   this->m_left = new frc::SpeedControllerGroup(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
   this->m_right = new frc::SpeedControllerGroup(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
 
