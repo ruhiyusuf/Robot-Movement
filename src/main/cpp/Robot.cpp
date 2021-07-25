@@ -24,8 +24,8 @@ void Robot::RobotInit() {
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 
-  *m_encoderSensor_left_motor = this->m_leftLeadMotor->GetEncoder();
-  *m_encoderSensor_right_motor = this->m_rightLeadMotor->GetEncoder();        
+  this->m_leftLeadMotor->GetEncoder();
+  this->m_rightLeadMotor->GetEncoder();
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
@@ -40,12 +40,12 @@ void Robot::AutonomousInit() {
   max_speed = 0.5;
   setpoint = 5.0;     // feet
   double wheel2GearR = (5.7 * M_PI) / (40 / 28); // 5.7 inch diameter wheel, 28 teeth on driver gear, 40 teeth on driven gear
-  m_encoderSensor_left_motor->SetPositionConversionFactor(wheel2GearR);
-  m_encoderSensor_right_motor->SetPositionConversionFactor(wheel2GearR);
+  this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
+  this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
 }
 void Robot::AutonomousPeriodic() {
-  l_wheel_rots = m_encoderSensor_left_motor->GetPosition();
-  r_wheel_rots = m_encoderSensor_right_motor->GetPosition();
+  l_wheel_rots = this->m_leftLeadMotor->GetEncoder().GetPosition();
+  r_wheel_rots = this->m_rightLeadMotor->GetEncoder().GetPosition();
 
   l_wheel_dist = (l_wheel_rots * l_wheel_circum) / 12; 
   r_wheel_dist = (r_wheel_rots * r_wheel_circum) / 12;

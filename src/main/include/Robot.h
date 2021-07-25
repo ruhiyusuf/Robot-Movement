@@ -33,8 +33,6 @@ class Robot : public frc::TimedRobot {
   double setpoint = 0.0;
   const double l_wheel_circum = 5.7 * M_PI, r_wheel_circum = 5.7 * M_PI;    
   double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
-  rev::CANEncoder* m_encoderSensor_left_motor = nullptr;
-  rev::CANEncoder* m_encoderSensor_right_motor = nullptr;
 
   void RobotInit() override;
   void RobotPeriodic() override;
