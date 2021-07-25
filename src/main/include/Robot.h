@@ -8,29 +8,33 @@
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
 #include <rev/CANEncoder.h>
+#include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <math.h>
 
 class Robot : public frc::TimedRobot {
  public:
   static const int leftLeadDeviceID = 1, rightLeadDeviceID = 2, leftFollowDeviceID = 3, rightFollowDeviceID = 4; // replace with actual motor IDs
+  rev::CANSparkMax* m_leftLeadMotor = nullptr; 
+  rev::CANSparkMax* m_rightLeadMotor = nullptr; 
+  rev::CANSparkMax* m_leftFollowMotor = nullptr; 
+  rev::CANSparkMax* m_rightFollowMotor = nullptr; 
 
-  rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  rev::CANSparkMax* m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-  rev::CANSparkMax* m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
-
-  frc::DifferentialDrive* m_robotDrive = new frc::DifferentialDrive(*m_leftLeadMotor, *m_rightLeadMotor);
+  frc::SpeedControllerGroup* m_left = nullptr;
+  frc::SpeedControllerGroup* m_right = nullptr;
+  frc::DifferentialDrive* m_robotDrive = nullptr;
 
   double max_speed = 0.0;
   double left_y = 0.0, right_x = 0.0;
-  frc::XboxController* controller = new frc::XboxController{0}; // replace with USB port number on driver station
+  frc::XboxController* controller = nullptr;
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
 
   double setpoint = 0.0;
   const double l_wheel_circum = 5.7 * M_PI, r_wheel_circum = 5.7 * M_PI;    
   double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
+  rev::CANEncoder* m_encoderSensor_left_motor = nullptr;
+  rev::CANEncoder* m_encoderSensor_right_motor = nullptr;
 
   void RobotInit() override;
   void RobotPeriodic() override;
