@@ -42,7 +42,7 @@ void Robot::RobotPeriodic() {
 void Robot::AutonomousInit() {
   max_speed = 0.5;
   setpoint = 5.0;     // feet
-  double wheel2GearR = (5.7 * M_PI) / (40 / 28); // 5.7 inch diameter wheel, 28 teeth on driver gear, 40 teeth on driven gear
+  double wheel2GearR = (5.7 * M_PI) / (40 / 14); // 5.7 inch diameter wheel, 14 teeth on driver gear, 40 teeth on driven gear
   this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
   this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
 }
