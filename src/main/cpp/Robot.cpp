@@ -26,9 +26,6 @@ void Robot::RobotInit() {
   this->m_robotDrive = new frc::DifferentialDrive(*this->m_left, *this->m_right);
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
-
-  this->m_leftLeadMotor->GetEncoder();
-  this->m_rightLeadMotor->GetEncoder();
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", left_y);
