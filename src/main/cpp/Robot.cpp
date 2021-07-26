@@ -28,8 +28,8 @@ void Robot::RobotInit() {
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 }
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("left y: ", left_y);
-  frc::SmartDashboard::PutNumber("right x: ", right_x);
+  frc::SmartDashboard::PutNumber("left y: ", this->controller->GetY(left_analog));
+  frc::SmartDashboard::PutNumber("right x: ", this->controller->GetX(right_analog));
   frc::SmartDashboard::PutNumber("left wheel rotations: ", l_wheel_rots);
   frc::SmartDashboard::PutNumber("right wheel rotations: ", r_wheel_rots);
   frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_wheel_dist);
