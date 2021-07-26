@@ -30,10 +30,10 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", this->controller->GetY(left_analog));
   frc::SmartDashboard::PutNumber("right x: ", this->controller->GetX(right_analog));
-  frc::SmartDashboard::PutNumber("left wheel rotations: ", l_wheel_rots);
-  frc::SmartDashboard::PutNumber("right wheel rotations: ", r_wheel_rots);
-  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_wheel_dist);
-  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_wheel_dist);
+  frc::SmartDashboard::PutNumber("left wheel rotations: ", this->m_leftLeadMotor->GetEncoder().GetPosition());
+  frc::SmartDashboard::PutNumber("right wheel rotations: ", this->m_rightLeadMotor->GetEncoder().GetPosition());
+  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", (l_wheel_rots * l_wheel_circum) / 12);
+  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", (r_wheel_rots * r_wheel_circum) / 12);
 }
 
 void Robot::AutonomousInit() {
