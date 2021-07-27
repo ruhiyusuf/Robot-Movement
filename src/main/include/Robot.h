@@ -24,14 +24,13 @@ class Robot : public frc::TimedRobot {
   frc::SpeedControllerGroup* m_right = nullptr;
   frc::DifferentialDrive* m_robotDrive = nullptr;
 
-  double max_speed = 0.0;
   double left_y = 0.0, right_x = 0.0;
   frc::XboxController* controller = nullptr;
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
 
-  double setpoint = 0.0;
-  const double l_wheel_circum = 5.7 * M_PI, r_wheel_circum = 5.7 * M_PI;    
+  double setpoint = 0.0, lError = 0.0, rError = 0.0, kP = 0.0, lSpeed = 0.0, rSpeed = 0.0;
+  const double wheel_circum = (5.7 * M_PI) / 12; 
   double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
 
   void RobotInit() override;

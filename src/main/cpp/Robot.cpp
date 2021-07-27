@@ -32,14 +32,20 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("right x: ", this->controller->GetX(right_analog));
   frc::SmartDashboard::PutNumber("left wheel rotations: ", this->m_leftLeadMotor->GetEncoder().GetPosition());
   frc::SmartDashboard::PutNumber("right wheel rotations: ", this->m_rightLeadMotor->GetEncoder().GetPosition());
-  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", (l_wheel_rots * l_wheel_circum) / 12);
-  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", (r_wheel_rots * r_wheel_circum) / 12);
+  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_wheel_dist);
+  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_wheel_dist);
 }
 
 void Robot::AutonomousInit() {
-  max_speed = 0.5;
-  setpoint = 5.0;     // feet
-  double wheel2GearR = (5.7 * M_PI) / (40 / 14); // 5.7 inch diameter wheel, 14 teeth on driver gear, 40 teeth on driven gear
+  kP = 0.1;                                  // needs tuning
+  setpoint = 5.0, lError = rError = 0.0;      // feet
+  lSpeed = rSpeed = 0.0;
+  /*
+  * 5.7 inch diameter wheels
+  * 14 teeth on driver gear
+  * 40 teeth on driven gear
+  */
+  double wheel2GearR = ((5.7 * M_PI) / 12) / (40 / 14);
   this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
   this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
 }
@@ -47,15 +53,16 @@ void Robot::AutonomousPeriodic() {
   l_wheel_rots = this->m_leftLeadMotor->GetEncoder().GetPosition();
   r_wheel_rots = this->m_rightLeadMotor->GetEncoder().GetPosition();
 
-  l_wheel_dist = (l_wheel_rots * l_wheel_circum) / 12; 
-  r_wheel_dist = (r_wheel_rots * r_wheel_circum) / 12;
+  l_wheel_dist = l_wheel_rots * wheel_circum;
+  r_wheel_dist = r_wheel_rots * wheel_circum;
 
-  if (l_wheel_dist >= setpoint || r_wheel_dist >= setpoint) {     
-    this->m_robotDrive->TankDrive(0.0, 0.0);
-  }
-  else {
-    this->m_robotDrive->TankDrive(max_speed, max_speed);
-  }
+  lError = setpoint - l_wheel_dist;
+  rError = setpoint - r_wheel_dist;
+
+  lSpeed = kP * lError;
+  rSpeed = kP * rError;
+
+  this->m_robotDrive->TankDrive(lSpeed, rSpeed);
 }
 
 void Robot::TeleopInit() {
