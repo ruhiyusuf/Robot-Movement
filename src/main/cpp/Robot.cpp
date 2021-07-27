@@ -65,7 +65,7 @@ void Robot::TeleopPeriodic() {
   left_y = this->controller->GetY(left_analog);
   right_x = this->controller->GetX(right_analog);
   
-  this->m_robotDrive->ArcadeDrive(left_y, right_x, true);
+  this->m_robotDrive->ArcadeDrive(-left_y, right_x, true);
 }
 
 void Robot::DisabledInit() {}
