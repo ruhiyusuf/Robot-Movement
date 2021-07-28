@@ -20,6 +20,9 @@ void Robot::RobotInit() {
   this->m_leftLeadMotor->SetInverted(false);
   this->m_rightLeadMotor->SetInverted(true);
 
+  this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
+  this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
+
   this->m_left = new frc::SpeedControllerGroup(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
   this->m_right = new frc::SpeedControllerGroup(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
 
@@ -32,22 +35,14 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("right x: ", this->controller->GetX(right_analog));
   frc::SmartDashboard::PutNumber("left wheel rotations: ", this->m_leftLeadMotor->GetEncoder().GetPosition());
   frc::SmartDashboard::PutNumber("right wheel rotations: ", this->m_rightLeadMotor->GetEncoder().GetPosition());
-  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", l_wheel_dist);
-  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", r_wheel_dist);
+  frc::SmartDashboard::PutNumber("left wheel distance (ft): ", this->m_leftLeadMotor->GetEncoder().GetPosition() * wheel_circum);
+  frc::SmartDashboard::PutNumber("right wheel distance (ft): ", this->m_rightLeadMotor->GetEncoder().GetPosition() * wheel_circum);
 }
 
 void Robot::AutonomousInit() {
   kP = 0.1;                                  // needs tuning
-  setpoint = 5.0, lError = rError = 0.0;      // feet
+  setpoint = 5.0, lError = rError = 0.0;     // feet
   lSpeed = rSpeed = 0.0;
-  /*
-  * 5.7 inch diameter wheels
-  * 14 teeth on driver gear
-  * 40 teeth on driven gear
-  */
-  double wheel2GearR = ((5.7 * M_PI) / 12) / (40 / 14);
-  this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
-  this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
 }
 void Robot::AutonomousPeriodic() {
   l_wheel_rots = this->m_leftLeadMotor->GetEncoder().GetPosition();

@@ -28,7 +28,12 @@ class Robot : public frc::TimedRobot {
   frc::XboxController* controller = nullptr;
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
-
+  /*
+  * 5.7 inch diameter wheels
+  * 14 teeth on driver gear
+  * 40 teeth on driven gear
+  */
+  const double wheel2GearR = ((5.7 * M_PI) / 12) / (40 / 14);
   double setpoint = 0.0, lError = 0.0, rError = 0.0, kP = 0.0, lSpeed = 0.0, rSpeed = 0.0;
   const double wheel_circum = (5.7 * M_PI) / 12; 
   double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
