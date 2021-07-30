@@ -40,11 +40,18 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-  kP = 0.1;                                  // needs tuning
-  setpoint = 5.0, lError = rError = 0.0;     // feet
+  kP = 0.1;                             // needs tuning
+  setpoint = lError = rError = 0.0;
   lSpeed = rSpeed = 0.0;
 }
 void Robot::AutonomousPeriodic() {
+  if (this->controller->GetAButton())
+    setpoint = 5.0;
+  else if (this->controller->GetBButton()) {
+    kP = 0.0;
+    this->m_robotDrive->StopMotor();
+  }
+
   l_wheel_rots = this->m_leftLeadMotor->GetEncoder().GetPosition();
   r_wheel_rots = this->m_rightLeadMotor->GetEncoder().GetPosition();
 
