@@ -8,7 +8,6 @@
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
 #include <rev/CANEncoder.h>
-#include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <math.h>
 
