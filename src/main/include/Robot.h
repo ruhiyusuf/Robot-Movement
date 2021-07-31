@@ -19,9 +19,7 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_rightLeadMotor = nullptr; 
   rev::CANSparkMax* m_leftFollowMotor = nullptr; 
   rev::CANSparkMax* m_rightFollowMotor = nullptr; 
-
-  frc::SpeedControllerGroup* m_left = nullptr;
-  frc::SpeedControllerGroup* m_right = nullptr;
+  
   frc::DifferentialDrive* m_robotDrive = nullptr;
 
   double left_y = 0.0, right_x = 0.0;

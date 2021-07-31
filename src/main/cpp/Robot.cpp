@@ -18,15 +18,14 @@ void Robot::RobotInit() {
   this->m_rightFollowMotor->RestoreFactoryDefaults();
 
   this->m_leftLeadMotor->SetInverted(false);
+  this->m_leftFollowMotor->Follow(*this->m_leftLeadMotor);
   this->m_rightLeadMotor->SetInverted(true);
+  this->m_rightFollowMotor->Follow(*this->m_rightLeadMotor);
 
   this->m_leftLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
   this->m_rightLeadMotor->GetEncoder().SetPositionConversionFactor(wheel2GearR);
 
-  this->m_left = new frc::SpeedControllerGroup(*this->m_leftLeadMotor, *this->m_leftFollowMotor);
-  this->m_right = new frc::SpeedControllerGroup(*this->m_rightLeadMotor, *this->m_rightFollowMotor);
-
-  this->m_robotDrive = new frc::DifferentialDrive(*this->m_left, *this->m_right);
+  this->m_robotDrive = new frc::DifferentialDrive(*this->m_leftLeadMotor, *this->m_rightLeadMotor);
 
   this->controller = new frc::XboxController{0}; // replace with USB port number on driver station
 }
