@@ -13,13 +13,13 @@
 
 class Robot : public frc::TimedRobot {
  public:
-  static const int leftLeadDeviceID = 1, rightLeadDeviceID = 2, leftFollowDeviceID = 3, rightFollowDeviceID = 4; // replace with actual motor IDs
+  static const int leftLeadDeviceID = 3, rightLeadDeviceID = 1, leftFollowDeviceID = 4, rightFollowDeviceID = 2; // replace with actual motor IDs
   rev::CANSparkMax* m_leftLeadMotor = nullptr; 
   rev::CANSparkMax* m_rightLeadMotor = nullptr; 
   rev::CANSparkMax* m_leftFollowMotor = nullptr; 
   rev::CANSparkMax* m_rightFollowMotor = nullptr; 
   
-  frc::DifferentialDrive* m_robotDrive = nullptr;
+  // frc::DifferentialDrive* m_robotDrive = nullptr;
 
   double left_y = 0.0, right_x = 0.0;
   frc::XboxController* controller = nullptr;
