@@ -44,8 +44,8 @@ void Robot::RobotInit() {
   controller = new frc::XboxController{0}; // replace with USB port number on driver station
 }
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("left y: ", controller->GetY(left_analog));
-  frc::SmartDashboard::PutNumber("right x: ", controller->GetX(right_analog));
+  frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
+  frc::SmartDashboard::PutNumber("right x: ", -(controller->GetX(right_analog)));
   frc::SmartDashboard::PutNumber("left wheel distance: ", m_leftLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
   frc::SmartDashboard::PutNumber("right wheel distance: ", m_rightLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
 }
