@@ -60,9 +60,11 @@ void Robot::AutonomousPeriodic() {
   if (controller->GetAButton()) {
     kP = 0.1;                 // needs tuning
     setpoint = 5.0;
+    wpi::outs() << "autonomous initiated" << "\n";
   }
   else if (controller->GetBButton()) {
     kP = 0.0;
+    wpi::outs() << "autonomous disabled" << "\n";
   }
 
   lDistance = m_leftLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet;
