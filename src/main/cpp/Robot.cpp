@@ -17,9 +17,9 @@ void Robot::RobotInit() {
   m_rightFollowMotor->RestoreFactoryDefaults();
 
   m_leftLeadMotor->SetInverted(true);
-  m_leftFollowMotor->Follow(*m_leftLeadMotor);
+  m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
   m_rightLeadMotor->SetInverted(false);
-  m_rightFollowMotor->Follow(*m_rightLeadMotor);
+  m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
 
   m_leftLeadMotor->SetSmartCurrentLimit(40);
   m_rightLeadMotor->SetSmartCurrentLimit(40);
