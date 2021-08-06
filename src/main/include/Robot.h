@@ -13,13 +13,11 @@
 
 class Robot : public frc::TimedRobot {
  public:
-  static const int leftLeadDeviceID = 3, rightLeadDeviceID = 1, leftFollowDeviceID = 4, rightFollowDeviceID = 2; // replace with actual motor IDs
+  static const int rightLeadDeviceID = 1, rightFollowDeviceID = 2, leftLeadDeviceID = 3, leftFollowDeviceID = 4;
   rev::CANSparkMax* m_leftLeadMotor = nullptr; 
   rev::CANSparkMax* m_rightLeadMotor = nullptr; 
   rev::CANSparkMax* m_leftFollowMotor = nullptr; 
-  rev::CANSparkMax* m_rightFollowMotor = nullptr; 
-  
-  // frc::DifferentialDrive* m_robotDrive = nullptr;
+  rev::CANSparkMax* m_rightFollowMotor = nullptr;
 
   double left_y = 0.0, right_x = 0.0;
   frc::XboxController* controller = nullptr;
@@ -30,10 +28,9 @@ class Robot : public frc::TimedRobot {
   * 14 teeth on driver gear
   * 40 teeth on driven gear
   */
-  const double wheel2GearR = ((5.7 * M_PI) / 12) / (40 / 14);
-  double setpoint = 0.0, lError = 0.0, rError = 0.0, kP = 0.0, lSpeed = 0.0, rSpeed = 0.0;
-  const double wheel_circum = (5.7 * M_PI) / 12; 
-  double l_wheel_rots = 0.0, r_wheel_rots = 0.0, l_wheel_dist = 0.0, r_wheel_dist = 0.0;
+  const double kGearRatio = (40 / 14), kWheelCircum = (5.7 * M_PI);
+  const double kDriveRots2Feet = kGearRatio * kWheelCircum * (1/12);
+  double setpoint = 0.0, kP = 0.0, lDistance, rDistance, lError = 0.0, rError = 0.0, lSpeed = 0.0, rSpeed = 0.0;
 
   void RobotInit() override;
   void RobotPeriodic() override;
