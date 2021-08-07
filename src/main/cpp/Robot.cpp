@@ -16,6 +16,9 @@ void Robot::RobotInit() {
   m_leftFollowMotor->RestoreFactoryDefaults();
   m_rightFollowMotor->RestoreFactoryDefaults();
 
+  m_leftLeadMotor->GetEncoder().SetPosition(0);
+  m_rightLeadMotor->GetEncoder().SetPosition(0);
+
   m_leftLeadMotor->SetInverted(true);
   m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
   m_rightLeadMotor->SetInverted(false);
