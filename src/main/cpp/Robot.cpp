@@ -71,6 +71,9 @@ void Robot::TeleopPeriodic() {
   left_y = controller->GetY(left_analog);
   right_x = controller->GetX(right_analog);
 
+  if (abs(left_y) < 0.08) 
+    left_y = 0;
+
   m_leftLeadMotor->Set(-left_y);
   m_rightLeadMotor->Set(-left_y);
 }
