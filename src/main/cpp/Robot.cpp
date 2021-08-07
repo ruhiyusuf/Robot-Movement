@@ -24,31 +24,11 @@ void Robot::RobotInit() {
   m_rightLeadMotor->SetInverted(false);
   m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
 
-  m_leftLeadMotor->SetSmartCurrentLimit(40);
-  m_rightLeadMotor->SetSmartCurrentLimit(40);
-  m_leftFollowMotor->SetSmartCurrentLimit(40);
-  m_rightFollowMotor->SetSmartCurrentLimit(40);
-
-  m_leftLeadMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-  m_rightLeadMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-  m_leftFollowMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-  m_rightFollowMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-
-  m_leftLeadMotor->GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_rightLeadMotor->GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_leftFollowMotor->GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_rightFollowMotor->GetForwardLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-
-  m_leftLeadMotor->GetReverseLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_rightLeadMotor->GetReverseLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_leftFollowMotor->GetReverseLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-  m_rightFollowMotor->GetReverseLimitSwitch(rev::CANDigitalInput::LimitSwitchPolarity::kNormallyOpen).EnableLimitSwitch(false);
-
   controller = new frc::XboxController{0}; // replace with USB port number on driver station
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
-  frc::SmartDashboard::PutNumber("right x: ", -(controller->GetX(right_analog)));
+  frc::SmartDashboard::PutNumber("right x: ", controller->GetX(right_analog));
   frc::SmartDashboard::PutNumber("left wheel distance: ", m_leftLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
   frc::SmartDashboard::PutNumber("right wheel distance: ", m_rightLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
 }
