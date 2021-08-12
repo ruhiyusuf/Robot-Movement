@@ -28,7 +28,7 @@ void Robot::RobotInit() {
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
-  frc::SmartDashboard::PutNumber("right x: ", controller->GetX(right_analog));
+  frc::SmartDashboard::PutNumber("right x: ", -(controller->GetY(right_analog)));
 }
 
 void Robot::AutonomousInit() {}
@@ -40,13 +40,16 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
   left_y = controller->GetY(left_analog);
-  right_x = controller->GetX(right_analog);
+  right_y = controller->GetY(right_analog);
 
   if (abs(left_y) < 0.08) 
     left_y = 0;
 
+  if (abs(right_y) < 0.08)
+    right_y = 0;
+
   m_leftLeadMotor->Set(-left_y);
-  m_rightLeadMotor->Set(-left_y);
+  m_rightLeadMotor->Set(-right_y);
 }
 
 void Robot::DisabledInit() {}
