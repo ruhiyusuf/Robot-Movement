@@ -7,9 +7,7 @@
 #include <frc/TimedRobot.h>
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
-#include <rev/CANEncoder.h>
 #include <frc/drive/DifferentialDrive.h>
-#include <math.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -23,14 +21,6 @@ class Robot : public frc::TimedRobot {
   frc::XboxController* controller = nullptr;
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
-  /*
-  * 5.7 inch diameter wheels
-  * 14 teeth on driver gear
-  * 40 teeth on driven gear
-  */
-  const double kGearRatio = (40 / 14), kWheelCircum = (5.7 * M_PI);
-  const double kDriveRots2Feet = kGearRatio * kWheelCircum * (1/12);
-  double setpoint = 0.0, kP = 0.0, lDistance, rDistance, lError = 0.0, rError = 0.0, lSpeed = 0.0, rSpeed = 0.0;
 
   void RobotInit() override;
   void RobotPeriodic() override;

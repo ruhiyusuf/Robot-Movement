@@ -29,39 +29,10 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
   frc::SmartDashboard::PutNumber("right x: ", controller->GetX(right_analog));
-  frc::SmartDashboard::PutNumber("left wheel distance: ", m_leftLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
-  frc::SmartDashboard::PutNumber("right wheel distance: ", m_rightLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet);
 }
 
-void Robot::AutonomousInit() {
-  kP = 0.0;
-  m_leftLeadMotor->GetEncoder().SetPosition(0);
-  m_rightLeadMotor->GetEncoder().SetPosition(0);
-  setpoint = lDistance = rDistance = lSpeed = rSpeed = lError = rError = 0.0;
-}
-void Robot::AutonomousPeriodic() {
-  if (controller->GetAButton()) {
-    kP = 0.1;                 // needs tuning
-    setpoint = 5.0;
-    wpi::outs() << "autonomous initiated" << "\n";
-  }
-  else if (controller->GetBButton()) {
-    kP = 0.0;
-    wpi::outs() << "autonomous disabled" << "\n";
-  }
-
-  lDistance = m_leftLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet;
-  rDistance = m_rightLeadMotor->GetEncoder().GetPosition() * kDriveRots2Feet;
-
-  lError = setpoint - lDistance;
-  rError = setpoint - rDistance;
-
-  lSpeed = kP * lError;
-  rSpeed = kP * rError;
-  
-  m_leftLeadMotor->Set(lSpeed);
-  m_rightLeadMotor->Set(rSpeed);
-}
+void Robot::AutonomousInit() {}
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
   m_leftLeadMotor->GetEncoder().SetPosition(0);
