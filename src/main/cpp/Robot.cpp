@@ -28,7 +28,7 @@ void Robot::RobotInit() {
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
-  frc::SmartDashboard::PutNumber("right x: ", -(controller->GetY(right_analog)));
+  frc::SmartDashboard::PutNumber("right y: ", -(controller->GetY(right_analog)));
 }
 
 void Robot::AutonomousInit() {}
