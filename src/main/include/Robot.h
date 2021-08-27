@@ -10,20 +10,6 @@
 
 class Robot : public frc::TimedRobot {
  public:
-  static const int rightLeadDeviceID = 1, rightFollowDeviceID = 2, leftLeadDeviceID = 3, leftFollowDeviceID = 4;
-  rev::CANSparkMax* m_leftLeadMotor = nullptr; 
-  rev::CANSparkMax* m_rightLeadMotor = nullptr; 
-  rev::CANSparkMax* m_leftFollowMotor = nullptr; 
-  rev::CANSparkMax* m_rightFollowMotor = nullptr;
-
-  SFDrive* m_robotDrive = nullptr;
-
-  double left_y = 0.0;
-  double right_x = 0.0;
-  frc::XboxController* controller = nullptr;
-  frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
-  frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
-
   void RobotInit() override;
   void RobotPeriodic() override;
 
@@ -38,5 +24,24 @@ class Robot : public frc::TimedRobot {
 
   void TestInit() override;
   void TestPeriodic() override;
+
+  static const int rightLeadDeviceID = 1;
+  static const int rightFollowDeviceID = 2;
+  static const int leftLeadDeviceID = 3;
+  static const int leftFollowDeviceID = 4;
+
+  double left_y = 0.0;
+  double right_x = 0.0;
+
+  rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+  rev::CANSparkMax* m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
+
+  frc::XboxController* controller = new frc::XboxController{0};
+  frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
+  frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
+
+  SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
 
 };
