@@ -20,8 +20,8 @@ void Robot::RobotInit() {
   m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
 }
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("left y: ", -(controller->GetY(left_analog)));
-  frc::SmartDashboard::PutNumber("right x: ", controller->GetX(right_analog));
+  frc::SmartDashboard::PutNumber("left y: ", -(m_stick->GetRawAxis(1)));
+  frc::SmartDashboard::PutNumber("right x: ", m_stick->GetRawAxis(4));
 }
 
 void Robot::AutonomousInit() {}
@@ -32,8 +32,8 @@ void Robot::TeleopInit() {
   m_rightEncoder.SetPosition(0);
 }
 void Robot::TeleopPeriodic() {
-  left_y = controller->GetY(left_analog);
-  right_x = controller->GetX(right_analog);
+  left_y = m_stick->GetRawAxis(1);
+  right_x = m_stick->GetRawAxis(4);
 
   m_robotDrive->ArcadeDrive(-left_y, right_x);
 }

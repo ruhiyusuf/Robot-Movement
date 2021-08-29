@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <frc/XboxController.h>
+#include <frc/Joystick.h>
 #include "SFDrive.h"
 
 class Robot : public frc::TimedRobot {
@@ -41,9 +41,7 @@ class Robot : public frc::TimedRobot {
   rev::CANEncoder m_leftEncoder = m_leftLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
   rev::CANEncoder m_rightEncoder = m_rightLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
 
-  frc::XboxController* controller = new frc::XboxController{0};
-  frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
-  frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
+  frc::Joystick* m_stick = new frc::Joystick{0};
 
   SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
 
