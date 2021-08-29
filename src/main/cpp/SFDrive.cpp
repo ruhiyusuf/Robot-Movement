@@ -22,10 +22,10 @@ void SFDrive::ArcadeDrive(double xSpeed, double zRotation)
 {
     double leftMotorOutput, rightMotorOutput;
 
-    if (abs(xSpeed) < deadband)
+    if (fabs(xSpeed) < deadband)
         xSpeed = 0;
 
-    if (abs(zRotation) < deadband)
+    if (fabs(zRotation) < deadband)
         zRotation = 0;
 
     if (xSpeed >= 0.0) {
