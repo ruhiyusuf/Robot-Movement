@@ -11,8 +11,8 @@ void Robot::RobotInit() {
   m_leftFollowMotor->RestoreFactoryDefaults();
   m_rightFollowMotor->RestoreFactoryDefaults();
 
-  m_leftLeadMotor->GetEncoder().SetPosition(0);
-  m_rightLeadMotor->GetEncoder().SetPosition(0);
+  m_leftEncoder.SetPosition(0);
+  m_rightEncoder.SetPosition(0);
 
   m_leftLeadMotor->SetInverted(true);
   m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
@@ -28,8 +28,8 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-  m_leftLeadMotor->GetEncoder().SetPosition(0);
-  m_rightLeadMotor->GetEncoder().SetPosition(0);
+  m_leftEncoder.SetPosition(0);
+  m_rightEncoder.SetPosition(0);
 }
 void Robot::TeleopPeriodic() {
   left_y = controller->GetY(left_analog);

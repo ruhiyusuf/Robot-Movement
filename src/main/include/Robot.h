@@ -38,6 +38,9 @@ class Robot : public frc::TimedRobot {
   rev::CANSparkMax* m_leftFollowMotor = new rev::CANSparkMax(leftFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   rev::CANSparkMax* m_rightFollowMotor = new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless);
 
+  rev::CANEncoder m_leftEncoder = m_leftLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
+  rev::CANEncoder m_rightEncoder = m_rightLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
+
   frc::XboxController* controller = new frc::XboxController{0};
   frc::GenericHID::JoystickHand left_analog {frc::GenericHID::kLeftHand};
   frc::GenericHID::JoystickHand right_analog {frc::GenericHID::kRightHand};
