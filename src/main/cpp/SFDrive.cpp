@@ -48,6 +48,12 @@ void SFDrive::ArcadeDrive(double xSpeed, double zRotation)
     leftMotorOutput = leftMotorOutput + excessHandler(rightMotorOutput);
     rightMotorOutput = rightMotorOutput + excessHandler(leftMotorOutput);
 
+    if (leftMotorOutput != 0)
+        leftMotorOutput = std::copysign((1/(1-deadband)) * fabs(leftMotorOutput) - (deadband/(1/deadband)), leftMotorOutput);
+        
+    if (rightMotorOutput != 0)
+        rightMotorOutput = std::copysign((1/(1-deadband)) * fabs(rightMotorOutput) - (deadband/(1/deadband)), rightMotorOutput);
+
     leftMotorOutput = std::copysign(pow(leftMotorOutput, 2), leftMotorOutput);
     rightMotorOutput = std::copysign(pow(rightMotorOutput, 2), rightMotorOutput);
 
