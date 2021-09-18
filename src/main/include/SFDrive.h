@@ -9,7 +9,9 @@
 class SFDrive {
  public:
   // member variables
-  const double deadband = 0.08;
+  const double deadband = 0.12;
+  double m_wheelCircumference = 5.7 * M_PI;
+  double m_ticksPerRev = 42;
   rev::CANSparkMax* lMotor = nullptr;
   rev::CANSparkMax* rMotor = nullptr;
 
@@ -19,4 +21,5 @@ class SFDrive {
  public:
   // methods
   void ArcadeDrive(double xSpeed, double zRotation);
+  double feet2Rots(double distance);
 };

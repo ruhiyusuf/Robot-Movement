@@ -30,6 +30,11 @@ class Robot : public frc::TimedRobot {
   static const int leftLeadDeviceID = 3;
   static const int leftFollowDeviceID = 4;
 
+  double m_P = 0, m_I = 0, m_D = 0;
+  double kMinOutput = 0, kMaxOutput = 0;
+
+  double errorL = 0, errorR = 0, setpoint = 0;
+
   double left_y = 0.0;
   double right_x = 0.0;
 
@@ -40,6 +45,9 @@ class Robot : public frc::TimedRobot {
 
   rev::CANEncoder m_leftEncoder = m_leftLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
   rev::CANEncoder m_rightEncoder = m_rightLeadMotor->GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);
+
+  rev::CANPIDController m_leftPIDController = m_leftLeadMotor->GetPIDController();
+  rev::CANPIDController m_rightPIDController = m_rightLeadMotor->GetPIDController();
 
   frc::Joystick* m_stick = new frc::Joystick{0};
 

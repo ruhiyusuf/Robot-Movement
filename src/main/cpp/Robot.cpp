@@ -22,10 +22,33 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(m_stick->GetRawAxis(1)));
   frc::SmartDashboard::PutNumber("right x: ", m_stick->GetRawAxis(4));
+  frc::SmartDashboard::PutNumber("left error", errorL);
+  frc::SmartDashboard::PutNumber("right error", errorR);
 }
 
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+  m_P = 0.5, m_I = 0.25, m_D = 0.1, kMinOutput = -0.5, kMaxOutput = 0.5, setpoint = 5;
+
+  m_leftPIDController.SetP(m_P);
+  m_leftPIDController.SetP(m_I);
+  m_leftPIDController.SetP(m_D);
+  m_leftPIDController.SetOutputRange(kMinOutput, kMaxOutput);
+
+  m_rightPIDController.SetP(m_P);
+  m_rightPIDController.SetP(m_I);
+  m_rightPIDController.SetP(m_D);
+  m_rightPIDController.SetOutputRange(kMinOutput, kMaxOutput);
+
+  m_leftEncoder.SetPosition(0);
+  m_rightEncoder.SetPosition(0);
+}
+void Robot::AutonomousPeriodic() {
+  errorL = m_robotDrive->feet2Rots(setpoint) - m_leftEncoder.GetPosition();
+  errorR = m_robotDrive->feet2Rots(setpoint) - m_rightEncoder.GetPosition();
+
+  m_leftPIDController.SetReference(errorL, rev::ControlType::kPosition);
+  m_rightPIDController.SetReference(errorR, rev::ControlType::kPosition);
+}
 
 void Robot::TeleopInit() {
   m_leftEncoder.SetPosition(0);
