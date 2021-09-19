@@ -7,17 +7,6 @@
 
 SFDrive::SFDrive(rev::CANSparkMax* lMotor, rev::CANSparkMax* rMotor) : lMotor{lMotor}, rMotor{rMotor} {}
 
-double excessHandler(double value)
-{
-    if (value > 1.0)
-        value = -(value - 1.0);
-    else if (value < -1.0)
-        value = -(value + 1.0);
-    else
-        value = 0.0;
-    return value;
-}
-
 void SFDrive::ArcadeDrive(double xSpeed, double zRotation) 
 {
     double leftMotorOutput, rightMotorOutput;
@@ -36,17 +25,6 @@ void SFDrive::ArcadeDrive(double xSpeed, double zRotation)
         leftMotorOutput = xSpeed - zRotation;
         rightMotorOutput = xSpeed + zRotation;
     }
-
-    /*
-    * Since the range of leftMotorOutput and rightMotorOutput is -2 ≤ x ≤ 2,
-    * the excess handler will always reduce this value to -1 ≤ x ≤ 1, 
-    * which is why I don't have to worry about the updated value of leftMotorOutput
-    * having an effect on the updated value of rightMotorOutput, after I modify each
-    * with excessHandler() below.
-    */
-
-    leftMotorOutput = leftMotorOutput + excessHandler(rightMotorOutput);
-    rightMotorOutput = rightMotorOutput + excessHandler(leftMotorOutput);
 
     if (leftMotorOutput != 0)
         leftMotorOutput = std::copysign((1/(1-deadband)) * fabs(leftMotorOutput) - (deadband/(1/deadband)), leftMotorOutput);
