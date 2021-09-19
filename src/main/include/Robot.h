@@ -6,6 +6,8 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/Joystick.h>
+#include <frc/AnalogInput.h>
+#include <frc/Spark.h>
 #include "SFDrive.h"
 
 class Robot : public frc::TimedRobot {
@@ -32,6 +34,15 @@ class Robot : public frc::TimedRobot {
 
   double left_y = 0.0;
   double right_x = 0.0;
+
+  int maxPID;
+  float PID;
+  float var_input;
+
+  frc::AnalogInput * analog_input = new frc::AnalogInput(0);
+
+  frc::Spark *cannon = new frc::Spark(0);
+
 
   rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);

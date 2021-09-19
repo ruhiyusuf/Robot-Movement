@@ -36,6 +36,25 @@ void Robot::TeleopPeriodic() {
   right_x = m_stick->GetRawAxis(4);
 
   m_robotDrive->ArcadeDrive(-left_y, right_x);
+
+  analog_input->GetVoltage();
+  frc::SmartDashboard::PutNumber("analogInput", analog_input->GetVoltage());
+  
+  var_input = frc::SmartDashboard::GetNumber("varInput", 1);
+  frc::SmartDashboard::PutNumber("varInput", var_input);
+
+  maxPID = frc::SmartDashboard::GetNumber("maxPID", 50);
+  frc::SmartDashboard::PutNumber("maxPID", maxPID);
+
+  maxPID = 100; 
+
+  PID = (analog_input->GetVoltage()) * 42; // 42 is calculated value from var_input
+
+  if (PID < maxPID) {
+    cannon->Set(1);
+  } else {
+    cannon->Set(0);
+  }
 }
 
 void Robot::DisabledInit() {}
