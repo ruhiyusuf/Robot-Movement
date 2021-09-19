@@ -60,8 +60,3 @@ void SFDrive::ArcadeDrive(double xSpeed, double zRotation)
     lMotor->Set(leftMotorOutput);
     rMotor->Set(rightMotorOutput);
 }
-
-double SFDrive::feet2Rots(double distance)
-{
-    return (fabs(distance*12) / m_wheelCircumference * m_ticksPerRev) / m_ticksPerRev;
-}
