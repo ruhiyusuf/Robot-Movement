@@ -1,3 +1,3 @@
 # Robot-Movement
-## Teleop Periodic
-- Moving the robot forward using a custom Arcade Drive method with excess handling and inputs from joysticks
+## Autonomous Periodic
+- Moving the robot forward a set distance using PID feedback loop
