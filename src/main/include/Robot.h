@@ -35,11 +35,11 @@ class Robot : public frc::TimedRobot {
   double left_y = 0.0;
   double right_x = 0.0;
 
-  int maxPID;
-  float PID;
+  int maxPSI;
+  float PSI;
   float var_input;
 
-  frc::AnalogInput * analog_input = new frc::AnalogInput(0);
+  frc::AnalogInput * analog_input = new frc::AnalogInput(1);
 
   frc::Spark *cannon = new frc::Spark(0);
 

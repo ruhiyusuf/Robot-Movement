@@ -43,14 +43,14 @@ void Robot::TeleopPeriodic() {
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
-  maxPID = frc::SmartDashboard::GetNumber("maxPID", 50);
-  frc::SmartDashboard::PutNumber("maxPID", maxPID);
+  maxPSI = frc::SmartDashboard::GetNumber("maxPID", 50);
+  frc::SmartDashboard::PutNumber("maxPID", maxPSI);
 
-  maxPID = 100; 
+  maxPSI = 100; 
 
-  PID = (analog_input->GetVoltage()) * 42; // 42 is calculated value from var_input
+  PSI = (analog_input->GetVoltage()) * 42; // 42 is calculated value from var_input
 
-  if (PID < maxPID) {
+  if (PSI > maxPSI) {
     cannon->Set(1);
   } else {
     cannon->Set(0);
