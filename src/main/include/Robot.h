@@ -38,10 +38,11 @@ class Robot : public frc::TimedRobot {
   int maxPSI;
   float PSI;
   float var_input;
+  bool reached_max_pressure = false;
 
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
 
-  frc::Spark *cannon = new frc::Spark(0);
+  frc::Spark *cannon;
 
   rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);

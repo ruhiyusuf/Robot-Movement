@@ -31,6 +31,7 @@ void Robot::TeleopInit() {
   m_leftEncoder.SetPosition(0);
   m_rightEncoder.SetPosition(0);
   std::cout << "test" << std::endl;
+  cannon = new frc::Spark(1);
 }
 void Robot::TeleopPeriodic() {
   left_y = m_stick->GetRawAxis(1);
@@ -51,13 +52,15 @@ void Robot::TeleopPeriodic() {
 
   // maxPSI = 100; 
 
-  PSI = (analog_input->GetVoltage()) * 42; // 42 is calculated value from var_input
-
-  if (PSI < maxPSI) {
-    std::cout << "test" << std::endl;
-    cannon->Set(1);
-  } else {
-    cannon->Set(0);
+  PSI = (analog_input->GetVoltage()) * 100 + 10; // 42 is calculated value from var_input
+  if (!reached_max_pressure) {
+    if (PSI < maxPSI) {
+      frc::SmartDashboard::PutNumber("currPSI", PSI);
+      cannon->Set(1);
+    } else {
+      cannon->Set(0);
+      reached_max_pressure = true; 
+    }
   }
 
   /*
