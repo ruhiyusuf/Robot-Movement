@@ -63,7 +63,7 @@ void Robot::TeleopPeriodic() {
     }
   }
 
-  /*
+  
   // if button pressed,
   // include if statement
   if (m_stick->GetTopPressed()) {
@@ -73,7 +73,6 @@ void Robot::TeleopPeriodic() {
       compressor->Set(0);
     }
   }
-  */
 }
 
 void Robot::DisabledInit() {}
