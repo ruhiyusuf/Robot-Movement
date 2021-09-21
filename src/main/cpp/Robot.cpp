@@ -8,22 +8,22 @@
 void Robot::RobotInit() {
   m_leftLeadMotor->RestoreFactoryDefaults();
   m_rightLeadMotor->RestoreFactoryDefaults();
-  m_leftFollowMotor->RestoreFactoryDefaults();
-  m_rightFollowMotor->RestoreFactoryDefaults();
+  // m_leftFollowMotor->RestoreFactoryDefaults();
+  // m_rightFollowMotor->RestoreFactoryDefaults();
 
   m_leftEncoder.SetPosition(0);
   m_rightEncoder.SetPosition(0);
 
   m_leftLeadMotor->SetInverted(true);
-  m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
+  // m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
   m_rightLeadMotor->SetInverted(false);
-  m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
+  // m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(m_stick->GetRawAxis(1)));
   frc::SmartDashboard::PutNumber("right x: ", m_stick->GetRawAxis(4));
 }
-
+ 
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
@@ -43,8 +43,8 @@ void Robot::TeleopPeriodic() {
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
-  maxPSI = frc::SmartDashboard::GetNumber("maxPID", 50);
-  frc::SmartDashboard::PutNumber("maxPID", maxPSI);
+  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 50);
+  frc::SmartDashboard::PutNumber("maxPSI", maxPSI);
 
   maxPSI = 100; 
 
@@ -55,6 +55,18 @@ void Robot::TeleopPeriodic() {
   } else {
     cannon->Set(0);
   }
+
+  /*
+  // if button pressed,
+  // include if statement
+  if (m_stick->GetTopPressed()) {
+    if (PSI > maxPSI) {
+      cannon->Set(1);
+    } else {
+      cannon->Set(0);
+    }
+  }
+  */
 }
 
 void Robot::DisabledInit() {}
