@@ -32,6 +32,7 @@ void Robot::TeleopInit() {
   m_rightEncoder.SetPosition(0);
   std::cout << "test" << std::endl;
   cannon = new frc::Spark(1);
+  relay = new frc::Relay(0);
 }
 void Robot::TeleopPeriodic() {
   left_y = m_stick->GetRawAxis(1);
@@ -57,6 +58,8 @@ void Robot::TeleopPeriodic() {
     if (PSI < maxPSI) {
       frc::SmartDashboard::PutNumber("currPSI", PSI);
       cannon->Set(1);
+
+      relay->Set(kOn);
     } else {
       cannon->Set(0);
       reached_max_pressure = true; 
