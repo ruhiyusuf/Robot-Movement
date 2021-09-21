@@ -9,6 +9,7 @@
 #include <frc/AnalogInput.h>
 #include <frc/Spark.h>
 #include "SFDrive.h"
+#include <frc/Solenoid.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -56,5 +57,7 @@ class Robot : public frc::TimedRobot {
   frc::Joystick* m_stick = new frc::Joystick{0};
 
   SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
+
+  frc::Solenoid valve{0};
 
 };
