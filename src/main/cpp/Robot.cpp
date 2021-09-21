@@ -8,16 +8,16 @@
 void Robot::RobotInit() {
   m_leftLeadMotor->RestoreFactoryDefaults();
   m_rightLeadMotor->RestoreFactoryDefaults();
-  // m_leftFollowMotor->RestoreFactoryDefaults();
-  // m_rightFollowMotor->RestoreFactoryDefaults();
+  m_leftFollowMotor->RestoreFactoryDefaults();
+  m_rightFollowMotor->RestoreFactoryDefaults();
 
   m_leftEncoder.SetPosition(0);
   m_rightEncoder.SetPosition(0);
 
   m_leftLeadMotor->SetInverted(true);
-  // m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
+  m_leftFollowMotor->Follow(*m_leftLeadMotor, false);
   m_rightLeadMotor->SetInverted(false);
-  // m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
+  m_rightFollowMotor->Follow(*m_rightLeadMotor, false);
 }
 void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("left y: ", -(m_stick->GetRawAxis(1)));
@@ -30,27 +30,31 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {
   m_leftEncoder.SetPosition(0);
   m_rightEncoder.SetPosition(0);
+  std::cout << "test" << std::endl;
 }
 void Robot::TeleopPeriodic() {
   left_y = m_stick->GetRawAxis(1);
   right_x = m_stick->GetRawAxis(4);
 
+  int test = 76;
   m_robotDrive->ArcadeDrive(-left_y, right_x);
 
   analog_input->GetVoltage();
   frc::SmartDashboard::PutNumber("analogInput", analog_input->GetVoltage());
-  
+  frc::SmartDashboard::PutNumber("testNum", test);
+
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
   maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 50);
   frc::SmartDashboard::PutNumber("maxPSI", maxPSI);
 
-  maxPSI = 100; 
+  // maxPSI = 100; 
 
   PSI = (analog_input->GetVoltage()) * 42; // 42 is calculated value from var_input
 
-  if (PSI > maxPSI) {
+  if (PSI < maxPSI) {
+    std::cout << "test" << std::endl;
     cannon->Set(1);
   } else {
     cannon->Set(0);
