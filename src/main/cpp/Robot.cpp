@@ -53,26 +53,25 @@ void Robot::TeleopPeriodic() {
   // maxPSI = 100; 
 
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
-  if (!reached_max_pressure) {
+  if (m_stick->GetRawButtonPressed(1)) {
+    pressed_button_pressure = true;
+    reached_max_pressure = false;
+    frc::SmartDashboard::PutBoolean("triggerpress", true);
+  }
+  if ((!reached_max_pressure) && (pressed_button_pressure)) {
     if (PSI < maxPSI) {
       frc::SmartDashboard::PutNumber("currPSI", PSI);
       compressor->Set(1);
     } else {
       compressor->Set(0);
-      reached_max_pressure = true; 
+      reached_max_pressure = true;
+      pressed_button_pressure = false; 
+      frc::SmartDashboard::PutBoolean("triggerpress", false);
     }
   }
-
   
   // if button pressed,
   // include if statement
-  if (m_stick->GetTopPressed()) {
-    if (PSI > maxPSI) {
-      compressor->Set(1);
-    } else {
-      compressor->Set(0);
-    }
-  }
 }
 
 void Robot::DisabledInit() {}

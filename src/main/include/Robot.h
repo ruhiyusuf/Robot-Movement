@@ -39,6 +39,7 @@ class Robot : public frc::TimedRobot {
   float PSI;
   float var_input;
   bool reached_max_pressure = false;
+  bool pressed_button_pressure = true;
 
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
 
