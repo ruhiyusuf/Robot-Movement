@@ -42,7 +42,7 @@ class Robot : public frc::TimedRobot {
 
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
 
-  frc::Spark *cannon;
+  frc::Spark *compressor;
 
   rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
