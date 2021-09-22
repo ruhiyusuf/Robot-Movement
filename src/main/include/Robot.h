@@ -58,6 +58,6 @@ class Robot : public frc::TimedRobot {
 
   SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
 
-  frc::Solenoid valve{0};
+  
 
 };
