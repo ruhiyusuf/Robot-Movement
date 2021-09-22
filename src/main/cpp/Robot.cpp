@@ -62,14 +62,7 @@ void Robot::TeleopPeriodic() {
     frc::SmartDashboard::PutBoolean("triggerpress", true);
   }
 
-  if (m_stick->GetRawButtonPressed(2)) {
-    valve.Set(true);
-    frc::SmartDashboard::PutBoolean("valve", true);
-  }
-  else {
-    //valve.Set(false);
-    frc::SmartDashboard::PutBoolean("valve", false);
-  }
+ 
 
 
   if ((!reached_max_pressure) && (pressed_button_pressure)) {
