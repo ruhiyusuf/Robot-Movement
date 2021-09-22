@@ -33,6 +33,7 @@ void Robot::TeleopInit() {
   std::cout << "test" << std::endl;
   compressor = new frc::Spark(1);
   pressed_button_pressure = false;
+  //Set it to false in the beggining
   valve.Set(false);
 }
 void Robot::TeleopPeriodic() {
@@ -57,6 +58,7 @@ void Robot::TeleopPeriodic() {
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
   if (m_stick->GetRawButtonPressed(1)) {
     valve.Set(false);
+    frc::SmartDashboard::PutBoolean("valve", false);
     pressed_button_pressure = true;
     reached_max_pressure = false;
     frc::SmartDashboard::PutBoolean("triggerpress", true);
@@ -66,11 +68,6 @@ void Robot::TeleopPeriodic() {
     valve.Set(true);
     frc::SmartDashboard::PutBoolean("valve", true);
   }
-  else {
-    //valve.Set(false);
-    frc::SmartDashboard::PutBoolean("valve", false);
-  }
-
 
   if ((!reached_max_pressure) && (pressed_button_pressure)) {
     if (PSI < maxPSI) {
