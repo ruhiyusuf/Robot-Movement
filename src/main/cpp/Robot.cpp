@@ -54,34 +54,39 @@ void Robot::TeleopPeriodic() {
 
   // maxPSI = 100; 
 
-  PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
-  if (m_stick->GetRawButtonPressed(1)) {
+  if (m_stick->GetRawButtonPressed(3) && (close_all == false)) {
+    close_all = true;
     valve.Set(false);
-    pressed_button_pressure = true;
-    reached_max_pressure = false;
-    frc::SmartDashboard::PutBoolean("triggerpress", true);
-    frc::SmartDashboard::PutBoolean("valve", false);
-  }
+  } else if (m_stick->GetRawButtonPressed(3) && close_all) {
+    close_all = false;
 
-  if (m_stick->GetRawButtonPressed(2)) {
-    valve.Set(true);
-    frc::SmartDashboard::PutBoolean("valve", true);
-  }
+    PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
+    if (m_stick->GetRawButtonPressed(1)) {
+      valve.Set(false);
+      pressed_button_pressure = true;
+      reached_max_pressure = false;
+      frc::SmartDashboard::PutBoolean("triggerpress", true);
+      frc::SmartDashboard::PutBoolean("valve", false);
+    }
 
-  if ((!reached_max_pressure) && (pressed_button_pressure)) {
-    if (PSI < maxPSI) {
-      frc::SmartDashboard::PutNumber("currPSI", PSI);
-      compressor->Set(1);
-    } else {
-      compressor->Set(0);
-      reached_max_pressure = true;
-      pressed_button_pressure = false; 
-      frc::SmartDashboard::PutBoolean("triggerpress", false);
+    if (m_stick->GetRawButtonPressed(2)) {
+      valve.Set(true);
+      frc::SmartDashboard::PutBoolean("valve", true);
+    }
+
+    if ((!reached_max_pressure) && (pressed_button_pressure)) {
+      if (PSI < maxPSI) {
+        frc::SmartDashboard::PutNumber("currPSI", PSI);
+        compressor->Set(1);
+      } else {
+        compressor->Set(0);
+        reached_max_pressure = true;
+        pressed_button_pressure = false; 
+        frc::SmartDashboard::PutBoolean("triggerpress", false);
+      }
     }
   }
   
-  // if button pressed,
-  // include if statement
 }
 
 void Robot::DisabledInit() {}

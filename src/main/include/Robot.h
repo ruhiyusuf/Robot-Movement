@@ -42,6 +42,7 @@ class Robot : public frc::TimedRobot {
   bool reached_max_pressure = false;
   bool pressed_button_pressure = true;
 
+  bool close_all = false;
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
 
   frc::Spark *compressor;
