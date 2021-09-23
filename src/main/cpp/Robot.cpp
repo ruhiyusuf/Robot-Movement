@@ -49,7 +49,7 @@ void Robot::TeleopPeriodic() {
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
-  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 50);
+  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 77);
   frc::SmartDashboard::PutNumber("maxPSI", maxPSI);
 
   // maxPSI = 100; 
@@ -63,7 +63,7 @@ void Robot::TeleopPeriodic() {
     frc::SmartDashboard::PutBoolean("valve", false);
   }
 
-  if (m_stick->GetRawButtonPressed(2)) {
+  if ((m_stick->GetRawButtonPressed(2)) && (reached_max_pressure)) {
     valve.Set(true);
     frc::SmartDashboard::PutBoolean("valve", true);
   }
