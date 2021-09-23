@@ -30,7 +30,6 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {
   m_leftEncoder.SetPosition(0);
   m_rightEncoder.SetPosition(0);
-  std::cout << "test" << std::endl;
   compressor = new frc::Spark(1);
   pressed_button_pressure = true;
   valve.Set(false);
@@ -39,20 +38,16 @@ void Robot::TeleopPeriodic() {
   left_y = m_stick->GetRawAxis(1);
   right_x = m_stick->GetRawAxis(4);
 
-  int test = 76;
   m_robotDrive->ArcadeDrive(-left_y, right_x);
 
   analog_input->GetVoltage();
   frc::SmartDashboard::PutNumber("analogInput", analog_input->GetVoltage());
-  frc::SmartDashboard::PutNumber("testNum", test);
 
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
-  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 77);
+  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 82);
   frc::SmartDashboard::PutNumber("maxPSI", maxPSI);
-
-  // maxPSI = 100; 
 
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
   if (m_stick->GetRawButtonPressed(1)) {
@@ -66,6 +61,11 @@ void Robot::TeleopPeriodic() {
   if ((m_stick->GetRawButtonPressed(2)) && (reached_max_pressure)) {
     valve.Set(true);
     frc::SmartDashboard::PutBoolean("valve", true);
+  }
+
+  if (m_stick->GetRawButtonPressed(3)) {
+    valve.Set(false);
+    frc::SmartDashboard::PutBoolean("valve", false);
   }
 
   if ((!reached_max_pressure) && (pressed_button_pressure)) {
