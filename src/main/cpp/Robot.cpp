@@ -36,7 +36,6 @@ void Robot::TeleopInit() {
   valve.Set(false);
 }
 void Robot::TeleopPeriodic() {
-  //List to check: Batteries, Joystick, Laptop, Tshirts!
   left_y = m_stick->GetRawAxis(1);
   right_x = m_stick->GetRawAxis(4);
 
@@ -50,12 +49,11 @@ void Robot::TeleopPeriodic() {
   var_input = frc::SmartDashboard::GetNumber("varInput", 1);
   frc::SmartDashboard::PutNumber("varInput", var_input);
 
-  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 50);
+  maxPSI = frc::SmartDashboard::GetNumber("maxPSI", 77);
   frc::SmartDashboard::PutNumber("maxPSI", maxPSI);
 
   // maxPSI = 100; 
 
-  // Button A will be to fill up pnuematics, the first one will be done automatically
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
   if (m_stick->GetRawButtonPressed(1)) {
     valve.Set(false);
@@ -65,21 +63,11 @@ void Robot::TeleopPeriodic() {
     frc::SmartDashboard::PutBoolean("valve", false);
   }
 
-  //Button B will be to set the valve to False, when button A is pressed, valve will be off
-  if (m_stick->GetRawButtonPressed(2)) {
+  if ((m_stick->GetRawButtonPressed(2)) && (reached_max_pressure)) {
     valve.Set(true);
     frc::SmartDashboard::PutBoolean("valve", true);
   }
 
-  //Sometimes, when we fire while the pressure has not automatically stopped, valve stays open
-  //Button X (or 3) should close the valve for us\
-
-  if(m_stick->GetRawButtonPressed(3)) {
-    //closing the valve
-    valve.Set(false);
-  }
-
-  //To stop compression, maybe enter a smaller value on shuffleboard!
   if ((!reached_max_pressure) && (pressed_button_pressure)) {
     if (PSI < maxPSI) {
       frc::SmartDashboard::PutNumber("currPSI", PSI);
