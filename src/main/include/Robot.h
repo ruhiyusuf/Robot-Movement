@@ -10,6 +10,7 @@
 #include <frc/Spark.h>
 #include "SFDrive.h"
 #include <frc/Solenoid.h>
+#include <unistd.h>
 
 class Robot : public frc::TimedRobot {
  public:

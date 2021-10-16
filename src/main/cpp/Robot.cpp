@@ -61,6 +61,10 @@ void Robot::TeleopPeriodic() {
   if ((m_stick->GetRawButtonPressed(2)) && (reached_max_pressure)) {
     valve.Set(true);
     frc::SmartDashboard::PutBoolean("valve", true);
+    
+    std::cout << "valve open" << std::endl;
+    sleep(1);
+    valve.Set(false);
   }
 
   if (m_stick->GetRawButtonPressed(3)) {
