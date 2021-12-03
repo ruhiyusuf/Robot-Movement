@@ -49,7 +49,7 @@ void Robot::TeleopInit() {
 
   c_shutoffTimerFlag = false;
   c_Timer->Reset();
-  c_shutoffDelay = 21.0;
+
   compressor_start = false;
   compressed_button_pressed = false;
 
@@ -67,6 +67,9 @@ void Robot::TeleopPeriodic() {
   frc::SmartDashboard::PutNumber("speedRight", m_rightFollowMotor->Get());
 
   frc::SmartDashboard::PutNumber("C_TIMER", c_Timer->Get());
+
+  c_shutoffDelay = frc::SmartDashboard::GetNumber("compressorDelay", 21.0);
+  frc::SmartDashboard::PutNumber("compressorDelay", c_shutoffDelay);
 
   analog_input->GetVoltage();
   frc::SmartDashboard::PutNumber("analogInput", analog_input->GetVoltage());
