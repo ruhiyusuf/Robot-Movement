@@ -113,7 +113,6 @@ void Robot::TeleopPeriodic() {
     v_shutoffTimer->Reset();
     v_shutoffTimer->Start();
 
-    std::cout << "VALVE: starting timer" << std::endl;
     valve_start = false;
   } else if (v_shutoffTimer->Get() >= v_shutoffDelay) {
     v_shutoffTimer->Stop();
@@ -127,17 +126,14 @@ void Robot::TeleopPeriodic() {
     c_Timer->Start();
 
     compressor_start = false;
-    std::cout << "STARTING COMPRESSOR TIMER" << std::endl;
   } else if (compressed_button_pressed) {
    
     if (c_Timer->Get() < c_shutoffDelay) {
       compressor->Set(1);
-      std::cout << "compressing..." << std::endl;
     } else if (c_Timer->Get() >= c_shutoffDelay) {
       compressor->Set(0);
       pressed_button_pressure = false; 
       frc::SmartDashboard::PutBoolean("triggerpress", false);
-      std::cout << "stopped compressing... " << std::endl;
       compressed_button_pressed = false;
     } 
     
