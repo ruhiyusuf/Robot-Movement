@@ -10,7 +10,7 @@
 #include <frc/Spark.h>
 #include "SFDrive.h"
 #include <frc/Solenoid.h>
-#include <unistd.h>
+#include <frc/Timer.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -42,10 +42,20 @@ class Robot : public frc::TimedRobot {
   float var_input;
   bool reached_max_pressure = false;
   bool pressed_button_pressure = true;
+  bool valve_start = false;
+
+  float v_shutoffDelay;
+  bool v_shutoffTimerFlag;
+
+  bool compressor_start;
+  float c_shutoffDelay;
+  bool c_shutoffTimerFlag;
+
+  bool compressed_button_pressed;
+
+  int count;
 
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
-
-  frc::Spark *compressor;
 
   rev::CANSparkMax* m_leftLeadMotor = new rev::CANSparkMax(leftLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
   rev::CANSparkMax* m_rightLeadMotor = new rev::CANSparkMax(rightLeadDeviceID, rev::CANSparkMax::MotorType::kBrushless);
@@ -60,5 +70,11 @@ class Robot : public frc::TimedRobot {
   SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
 
   frc::Solenoid valve{0};
+
+  frc::Spark* compressor = new frc::Spark(1);
+
+  frc::Timer* v_shutoffTimer = new frc::Timer();
+
+  frc::Timer* c_Timer = new frc::Timer();
 
 };
