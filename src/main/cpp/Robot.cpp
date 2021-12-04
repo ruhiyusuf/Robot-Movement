@@ -68,7 +68,7 @@ void Robot::TeleopPeriodic() {
 
   frc::SmartDashboard::PutNumber("C_TIMER", c_Timer->Get());
 
-  c_shutoffDelay = frc::SmartDashboard::GetNumber("compressorDelay", 21.0);
+  // c_shutoffDelay = frc::SmartDashboard::GetNumber("compressorDelay", 21.0);
   frc::SmartDashboard::PutNumber("compressorDelay", c_shutoffDelay);
 
   analog_input->GetVoltage();
@@ -84,6 +84,9 @@ void Robot::TeleopPeriodic() {
   frc::SmartDashboard::PutNumber("valveDelay", v_shutoffDelay);
 
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
+
+  c_shutoffDelay = maxPSI * 100; // transfer function
+
   // to compress
   if (m_stick->GetRawButtonPressed(1)) {
     valve.Set(false);
