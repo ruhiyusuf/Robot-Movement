@@ -47,12 +47,6 @@ class Robot : public frc::TimedRobot {
   float v_shutoffDelay;
   bool v_shutoffTimerFlag;
 
-  bool compressor_start;
-  float c_shutoffDelay;
-  bool c_shutoffTimerFlag;
-
-  bool compressed_button_pressed;
-
   int count;
 
   frc::AnalogInput * analog_input = new frc::AnalogInput(1);
@@ -69,12 +63,10 @@ class Robot : public frc::TimedRobot {
 
   SFDrive* m_robotDrive = new SFDrive(m_leftLeadMotor, m_rightLeadMotor);
 
-  frc::Solenoid valve{1};
+  frc::Solenoid valve{0};
 
   frc::Spark* compressor = new frc::Spark(1);
 
   frc::Timer* v_shutoffTimer = new frc::Timer();
-
-  frc::Timer* c_Timer = new frc::Timer();
 
 };
