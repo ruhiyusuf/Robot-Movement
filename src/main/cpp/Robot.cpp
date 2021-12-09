@@ -85,7 +85,7 @@ void Robot::TeleopPeriodic() {
 
   PSI = (analog_input->GetVoltage()) * 100 + 10; // transfer function
 
-  c_shutoffDelay = maxPSI * 100; // transfer function
+  c_shutoffDelay = (0.3836 * maxPSI) -9.4122; // transfer function
 
   // to compress
   if (m_stick->GetRawButtonPressed(1)) {
@@ -138,6 +138,8 @@ void Robot::TeleopPeriodic() {
       pressed_button_pressure = false; 
       frc::SmartDashboard::PutBoolean("triggerpress", false);
       compressed_button_pressed = false;
+
+      c_Timer->Stop();
     } 
     
   }

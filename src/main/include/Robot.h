@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// graph for transfer function to convert PSI into compressor time: https://www.desmos.com/calculator/vp5ikykz0g
+
 #pragma once
 
 #include <frc/TimedRobot.h>
